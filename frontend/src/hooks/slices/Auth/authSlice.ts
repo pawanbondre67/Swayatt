@@ -11,18 +11,28 @@ export const loginUser = createAsyncThunk('auth/login', async (credentials: User
 
 // Register user
 export const registerUser = createAsyncThunk('auth/register', async (userData: User) => {
-  console.log("data while passing to asyncthunk register" , userData);
   const data = await register(userData);
   return data;
 });
+
+
+const saveState = (state) => {
+  try {
+    const serializedState = JSON.stringify(state);
+    localStorage.setItem('authState', serializedState);
+  } catch (err) {
+    // Handle errors
+    console.error(err);
+  }
+};
 
 const authSlice = createSlice({
   name: 'auth',
   initialState: {
     token: null as string | null,
     role: null as string | null,
-    userId: null as string | null, // Add userId
-    username: null as string | null, // Add username
+    userId: null as string | null, 
+    username: null as string | null, 
     status: 'idle' as 'idle' | 'loading' | 'succeeded' | 'failed',
     error: null as string | null,
   },
@@ -30,10 +40,11 @@ const authSlice = createSlice({
     logout: (state) => {
       state.token = null;
       state.role = null;
-      state.userId = null; // Reset userId
-      state.username = null; // Reset username
+      state.userId = null; 
+      state.username = null;
       state.status = 'idle';
       state.error = null;
+      saveState(state); // Save state to localStorage on logout
     },
   },
   extraReducers: (builder) => {
@@ -48,6 +59,7 @@ const authSlice = createSlice({
         state.role = action.payload.role;
         state.userId = action.payload.user.id; // Set userId
         state.username = action.payload.user.username; // Set username
+        saveState(state); // Save state to localStorage on login
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.status = 'failed';
@@ -62,8 +74,9 @@ const authSlice = createSlice({
         state.status = 'succeeded';
         state.token = action.payload.token;
         state.role = action.payload.role;
-        state.userId = action.payload.user.id; // Set userId
-        state.username = action.payload.user.username; // Set username
+        state.userId = action.payload.user.id;
+        state.username = action.payload.user.username;
+        saveState(state); // Save state to localStorage on register
       })
       .addCase(registerUser.rejected, (state, action) => {
         state.status = 'failed';

@@ -1,9 +1,17 @@
-import React from 'react'
+import { useAppSelector } from '@/hooks/hook';
+import React from 'react';
 
-const DashBoard : React.FC = () => {
+// import OrderTable from '../components/OrderTable';
+
+const Dashboard : React.FC = () => {
+  const { role } = useAppSelector((state) => state.auth);
+
   return (
-    <div>Login</div>
-  )
-}
+    <div>
+      <h1>Dashboard</h1>
+      {role === 'Manager' && <button>Create Order</button>}
+    </div>
+  );
+};
 
-export default DashBoard
+export default Dashboard;
