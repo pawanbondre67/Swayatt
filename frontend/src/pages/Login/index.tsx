@@ -21,10 +21,11 @@ import { useAppDispatch, useAppSelector } from "@/hooks/hook";
 import { loginUser } from "@/hooks/slices/Auth/authSlice";
 import { User } from "@/hooks/services/AuthService/type";
 import { useNavigate } from 'react-router-dom';
+
 const Login: React.FC = () => {
 
     const dispatch = useAppDispatch();
-    const { status ,error} = useAppSelector((state) => state.auth);
+    const { UserData} = useAppSelector((state) => state.auth);
  const navigate = useNavigate();
   // State for form fields
   const [formData, setFormData] = useState<User>({
@@ -72,7 +73,7 @@ const Login: React.FC = () => {
     } catch (err) {
       // Show error toast
         console.log("Login failed err" , err);
-        console.log("Login failed" , error);
+        console.log("Login failed" , UserData.error);
     }
   };
 
@@ -163,8 +164,8 @@ const Login: React.FC = () => {
         <Button variant="outline" onClick={handleReset}>
           Reset
         </Button>
-        <Button type="submit" onClick={handleSubmit} disabled={status === 'loading'}>
-          {status === 'loading' ? 'Logging in...' : 'Submit'}
+        <Button type="submit" onClick={handleSubmit} disabled={UserData.status === 'loading'}>
+          {UserData.status === 'loading' ? 'Logging in...' : 'Submit'}
         </Button>
       </CardFooter>
     </Card>
