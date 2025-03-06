@@ -1,6 +1,6 @@
 
 import { Navigate } from 'react-router-dom';
-import { useAppSelector } from '../hooks/hook';
+import { useAppSelector } from '../redux/hook';
 
 import { ReactNode } from 'react';
 

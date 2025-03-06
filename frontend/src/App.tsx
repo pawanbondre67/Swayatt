@@ -3,6 +3,7 @@ import Login from './pages/Login/';
 import Dashboard from './pages/DashBoard';
 import ProtectedRoute from './components/ProtectedRoute';
 import Register from './pages/Register';
+import Navbar from './components/NavBar';
 
 const App = () => {
   return (
@@ -14,6 +15,7 @@ const App = () => {
           path="/"
           element={
             <ProtectedRoute>
+              <Navbar />
               <Dashboard />
             </ProtectedRoute>
           }

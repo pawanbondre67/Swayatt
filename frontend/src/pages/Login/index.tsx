@@ -17,9 +17,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useAppDispatch, useAppSelector } from "@/hooks/hook";
-import { loginUser } from "@/hooks/slices/Auth/authSlice";
-import { User } from "@/hooks/services/AuthService/type";
+import { useAppDispatch, useAppSelector } from "@/redux/hook";
+import { loginUser } from "@/redux/slices/Auth/authSlice";
+import { User } from "@/redux/services/AuthService/type";
 import { useNavigate } from 'react-router-dom';
 
 const Login: React.FC = () => {
@@ -52,19 +52,16 @@ const Login: React.FC = () => {
     }));
   };
 
-  // Handle form submission
-// Handle form submission
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     try {
-      // Dispatch the registerUser action
+    
       console.log("Registering user" , formData);
       await dispatch(loginUser(formData)).unwrap();
 
       // Show success toast
       console.log("Login successful");
-
       navigate('/');
 
 
